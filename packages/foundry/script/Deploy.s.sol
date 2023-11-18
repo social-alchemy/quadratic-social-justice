@@ -16,13 +16,8 @@ contract DeployScript is ScaffoldETHDeploy {
         }
         vm.startBroadcast(deployerPrivateKey);
         RealityETH_v3_0 yourContract = new RealityETH_v3_0(
-);
-        console.logString(
-            string.concat(
-                "YourContract deployed at: ",
-                vm.toString(address(yourContract))
-            )
-        );
+    );
+        console.logString(string.concat("YourContract deployed at: ", vm.toString(address(yourContract))));
         vm.stopBroadcast();
 
         /**

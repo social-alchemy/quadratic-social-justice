@@ -16,6 +16,7 @@ contract MockERC20 is ERC20 {
 contract MockIRealityETH {
     mapping(bytes32 => bytes32) public answers;
     mapping(bytes32 => string) public questions;
+    mapping(bytes32 => uint256) public answerTokens;    
 
     // Mock function to simulate asking a question
     function askQuestionERC20(
@@ -30,6 +31,25 @@ contract MockIRealityETH {
         bytes32 questionId = keccak256(abi.encodePacked(question, nonce));
         questions[questionId] = question;
         return questionId;
+    }
+
+        // Mock function to simulate submitting an answer with ERC20 tokens
+    function submitAnswerERC20(
+        bytes32 question_id, 
+        bytes32 answer, 
+        uint256 max_previous, 
+        uint256 tokens
+    ) external {
+        require(tokens > 0, "Token amount must be greater than 0");
+        require(answers[question_id] == 0, "Answer already submitted");
+
+        answers[question_id] = answer;
+        answerTokens[question_id] = tokens;
+    }
+
+    // Function to get the token amount used for an answer
+    function getAnswerTokens(bytes32 question_id) external view returns (uint256) {
+        return answerTokens[question_id];
     }
 
     function resultFor(bytes32 questionId) external view returns (bytes32) {
@@ -75,8 +95,6 @@ contract BettingGame_ERC20_Test is Test  {
         bettingGame.createBet("what?", betAmount);
         vm.stopPrank();
 
-        // Check if the bet is created correctly
-        // (Add your assertions here)
         assertEq(token.balanceOf(address(bettingGame)), betAmount);
     }
 
@@ -92,11 +110,9 @@ contract BettingGame_ERC20_Test is Test  {
         // Now, join the bet
         vm.startPrank(player2);
         token.approve(address(bettingGame), betAmount);
-        bettingGame.joinBet(questionId, betAmount);
+        bytes32 qId = realityETH.askQuestionERC20(0, "what?", address(bettingGame), 30, uint32(block.timestamp), 0, betAmount);
+        bettingGame.joinBet(qId, betAmount);
         vm.stopPrank();
-
-        // Check if the bet is joined correctly
-        // (Add your assertions here)
     }
 
     function testSettleBetERC20() public {
@@ -110,15 +126,16 @@ contract BettingGame_ERC20_Test is Test  {
 
         vm.startPrank(player2);
         token.approve(address(bettingGame), betAmount);
-        bettingGame.joinBet(questionId, betAmount);
+        bytes32 qId = realityETH.askQuestionERC20(0, "what?", address(bettingGame), 30, uint32(block.timestamp), 0, betAmount);
+        bettingGame.joinBet(qId, betAmount);
         vm.stopPrank();
 
         // Set the mock answer in MockIRealityETH
         bytes32 answer = keccak256("Yes");
-        realityETH.setAnswer(questionId, answer);
+        realityETH.setAnswer(qId, answer);
 
         // Settle the bet
-        bettingGame.settleBet(questionId);
+        bettingGame.settleBet(qId);
 
         // Check if the bet is settled correctly
         // (Add your assertions here)
