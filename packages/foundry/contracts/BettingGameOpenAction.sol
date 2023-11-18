@@ -32,13 +32,17 @@ contract BettingGameOpenAction is HubRestricted, IPublicationActionModule {
         
         // === 4 step === 
         // 1. create bet
-        bytes32 questionId = _bettingGame.createBet{value: 1 ether}("Will it rain tomorrow?", address(0), 0, 0, 0);
+        // token.approve(address(bettingGame), betAmount);
+        // bettingGame.createBet("what?", betAmount);
         // 2. place bet
-        // bettingGame.joinBet{value: 1 ether}(questionId);
+        // token.approve(address(bettingGame), betAmount);
+        // bytes32 qId = realityETH.askQuestionERC20(0, "what?", address(bettingGame), 30, uint32(block.timestamp), 0, betAmount);
+        // bettingGame.joinBet(qId, betAmount);
         // 3. set result
-        // RealityETH.setAnswer(questionId, bytes32(uint256(0))); // Set the answer to 'yes'
+        // bytes32 answer = keccak256("Yes");
+        // realityETH.setAnswer(qId, answer);        
         // 4. withdraw
-        // bettingGame.settleBet(questionId);
+        // bettingGame.settleBet(qId);
 
         return data;
     }
