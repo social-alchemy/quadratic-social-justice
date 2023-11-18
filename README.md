@@ -1,19 +1,19 @@
-# LensBet (Quadratic Arbitration) 🎲
+# LensBet (with Quadratic Arbitration) 🎲
 
 ## Introduction 🌟
 
-Welcome to the BettingGame project! This innovative project integrates with the Reality.eth decentralized oracle to create a betting game on Ethereum. In this document, we'll explain how Reality.eth works, the mechanics of the BettingGame, and address the challenges in the arbitration process, including our solution: Quadratic Voting During Arbitration. Additionally, we highlight that our frontend is uniquely integrated as a Lens Smart Post.
+Welcome to the LensBet project! This innovative project integrates with the Reality.eth decentralized oracle to create a betting game on Lens Protocol using Smart Post. In this document, we'll explain how the Oracle works, the mechanics of the BettingGame, and address the challenges in the arbitration process, including our solution: Quadratic Voting During Arbitration. Additionally, we highlight that our frontend is uniquely integrated as a Lens Smart Post.
 
-## How Reality.eth Works 🌐
+## How Oracle (Reality.eth) Works 🌐
 
-Reality.eth is a decentralized oracle for Ethereum, facilitating the verification of real-world events through a community-driven process. Here's how it operates:
+Conventional Reality.eth is a decentralized oracle for Ethereum, facilitating the verification of real-world events through a community-driven process. Here's how it operates:
 
 1. **Question Creation** 📝: Users pose questions about real-world events, setting deadlines for answers.
 2. **Answer Submission** 🗳️: Participants submit answers, each requiring a bond. Successive answers must double the bond of the previous one.
 3. **Finalization** ✔️: Post-deadline, if no disputes arise, the last answer becomes final.
 4. **Arbitration** ⚖️: Disputed answers are resolved by an arbitrator who provides a definitive resolution.
 
-## How BettingGame Works 🎰
+## How LensBet BettingGame Works 🎰
 
 BettingGame utilizes Reality.eth to offer a decentralized betting experience:
 
@@ -46,8 +46,42 @@ Our project's frontend is innovatively integrated as a Lens Smart Post. Lens Pro
 This project is made possible thanks to the ETHScaffold framework, which provided the foundational tools and resources for our development. A special thanks to the ETHScaffold team for their invaluable support and contributions to the Ethereum developer community.
 
 
-## TODO & Future Roadmaps 🎉
+## TODO & Future Roadmaps: Quadratic Arbitration 🎉
 
-BettingGame is committed to a fair, decentralized betting experience using Reality.eth. Our approach, including Quadratic Voting and Lens Smart Post integration, ensures a balanced and engaging platform. We invite community involvement for continuous improvement.
+# Quadratic Arbitration Using Quadratic Voting 📊
+
+## The Challenge in Conventional Arbitration 🚩
+
+In the conventional arbitration process within systems like Reality.eth, participants can submit answers to questions, with each new answer requiring at least double the bond of the previous one. This process resets the timeout clock for each new answer. However, this system has a vulnerability:
+
+- **Wealthy Individual Influence**: A wealthy individual or entity can potentially overwhelm the process by continuously posting higher bonds, skewing the outcome in their favor. This undermines the democratic and fair nature of the arbitration process.
+
+## Introducing Quadratic Arbitration 🌟
+
+To address this challenge, we can incorporate principles from Quadratic Voting into the arbitration process. Quadratic Voting is a system where the cost of each additional vote grows quadratically rather than linearly. Here's how it can be applied to arbitration:
+
+### Principles of Quadratic Voting 📐
+
+1. **Cost Increases Quadratically**: The cost of influencing an outcome grows quadratically with each additional unit of influence a participant wishes to exert.
+2. **Democratizing Influence**: This makes it disproportionately more expensive for a single entity to dominate the outcome, ensuring a more balanced and democratic process.
+
+### Applying Quadratic Voting to Arbitration 🗳️
+
+1. **Bond Calculation**: Instead of simply doubling the bond for each new answer, the required bond could increase quadratically based on the number of times an entity attempts to influence the outcome.
+2. **Disincentivizing Wealth Domination**: As the cost grows quadratically, it becomes financially impractical for even wealthy participants to dominate the arbitration process.
+3. **Encouraging Diverse Participation**: This method encourages more participants to engage in the process, as their influence is not easily overridden by wealthier entities.
+
+### Example 📝
+
+- Suppose the initial bond is 1 token.
+- The second bond, instead of being 2 tokens (double), could be 4 tokens (quadratic growth).
+- The third bond would then be 9 tokens, and so on.
+
+## Conclusion and Implications 🎯
+
+Quadratic Arbitration using Quadratic Voting principles offers a more equitable and democratic approach to resolving disputes in decentralized systems. It reduces the risk of arbitration being overwhelmed by individuals with significant assets, promoting a fairer and more inclusive decision-making process.
+
+*This approach aligns with the ethos of decentralization, ensuring that the power to influence outcomes is more evenly distributed across the participant base.* 🌍
+
 
 ---
