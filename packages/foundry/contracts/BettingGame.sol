@@ -1,9 +1,6 @@
 pragma solidity ^0.8.0;
 
-interface IRealityETH {
-    function askQuestion(uint256 template_id, string memory question, address arbitrator, uint32 timeout, uint32 opening_ts, uint256 nonce) external payable returns (bytes32);
-    function resultFor(bytes32 question_id) external view returns (bytes32);
-}
+import "./interfaces/IRealityETH.sol";
 
 contract BettingGame {
     IRealityETH public realityETH;
@@ -18,7 +15,9 @@ contract BettingGame {
         bool isSettled;
     }
 
-    event BetPlaced(bytes32 indexed betId, address indexed player1, address indexed player2, uint256 amount, bytes32 questionId);
+    event BetPlaced(
+        bytes32 indexed betId, address indexed player1, address indexed player2, uint256 amount, bytes32 questionId
+    );
     event BetSettled(bytes32 indexed betId, address winner);
 
     constructor(address _realityETH) {
@@ -26,8 +25,13 @@ contract BettingGame {
         owner = msg.sender;
     }
 
-    function createBet(string memory question, address arbitrator, uint32 timeout, uint32 opening_ts, uint256 nonce) external payable returns (bytes32) {
-        bytes32 questionId = realityETH.askQuestion{value: msg.value}(0, question, arbitrator, timeout, opening_ts, nonce);
+    function createBet(string memory question, address arbitrator, uint32 timeout, uint32 opening_ts, uint256 nonce)
+        external
+        payable
+        returns (bytes32)
+    {
+        bytes32 questionId =
+            realityETH.askQuestion{value: msg.value}(0, question, arbitrator, timeout, opening_ts, nonce);
         Bet memory newBet = Bet({
             player1: payable(msg.sender),
             player2: payable(address(0)),
@@ -59,7 +63,8 @@ contract BettingGame {
             winner = bet.player2;
         }
         bet.isSettled = true;
-        payable(winner).call{value: address(this).balance}("");
+        (bool sent,) = payable(winner).call{value: address(this).balance}("");
+        require(sent, "Failed to send Ether");
         emit BetSettled(betId, winner);
     }
 }
