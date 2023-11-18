@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 import "./interfaces/IRealityETH_ERC20.sol"; // Assuming IRealityETH is the interface based on the provided ABI
 
-contract BettingGame_ERC20 {
+contract IBettingGame_ERC20 {
     IRealityETH_ERC20 public realityETH;
     IERC20 public token;
 
