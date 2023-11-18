@@ -1,9 +1,9 @@
 pragma solidity ^0.8.0;
 
-import "./interfaces/IRealityETH.sol";
+import "./interfaces/IReality.sol";
 
 contract BettingGame {
-    IRealityETH public realityETH;
+    IReality public realityETH;
     address public owner;
     mapping(bytes32 => Bet) public bets;
 
@@ -21,7 +21,7 @@ contract BettingGame {
     event BetSettled(bytes32 indexed betId, address winner);
 
     constructor(address _realityETH) {
-        realityETH = IRealityETH(_realityETH);
+        realityETH = IReality(_realityETH);
         owner = msg.sender;
     }
 
