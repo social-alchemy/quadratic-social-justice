@@ -59,7 +59,7 @@ contract BettingGame {
             winner = bet.player2;
         }
         bet.isSettled = true;
-        payable(winner).transfer(bet.amount * 2);
+        payable(winner).call{value: address(this).balance}("");
         emit BetSettled(betId, winner);
     }
 }
