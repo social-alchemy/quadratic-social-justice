@@ -4,6 +4,20 @@
 
 Welcome to the LensBet project! This innovative project integrates with the Reality.eth decentralized oracle to create a betting game on Lens Protocol using Smart Post. In this document, we'll explain how the Oracle works, the mechanics of the BettingGame, and address the challenges in the arbitration process, including our solution: Quadratic Voting During Arbitration. Additionally, we highlight that our frontend is uniquely integrated as a Lens Smart Post.
 
+## How to depoy contracts 🌐
+1. **Config env** 📝: Find lensHub Proxy Contract address and erc20 token address, config as following
+
+```angular2html
+export ERC20_TOKEN_ADDRESS=0x0
+export LENS_HUB_PROXY_ADDRESS=0x0
+```
+
+2 **Deploy contracts** 📝: Execute following command deploy contracts
+```angular2html
+cd quadratic-social-justice/packages/foundry
+forge script ./script/Deploy.s.sol:Deployer --rpc-url $RPC_URL --private-key $PRIVATE_KEY --broadcast -vvvv
+```
+
 ## How Oracle (Reality.eth) Works 🌐
 
 Conventional Reality.eth is a decentralized oracle for Ethereum, facilitating the verification of real-world events through a community-driven process. Here's how it operates:

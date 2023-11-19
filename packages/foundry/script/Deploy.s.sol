@@ -24,8 +24,8 @@ contract Deployer is ScaffoldETHDeploy {
     RealityETH_ERC20 public realityAddress;
     BettingGame_ERC20 public gameErc20Address;
     BettingGameOpenAction public bgoaAddress;
-
-    IERC20 public tokenAddress = IERC20(address(0));
+    IERC20 public tokenAddress;
+    address public lensHubProxyContract;
 
     function run() external {
         uint256 deployerPrivateKey = setupLocalhostEnv();
@@ -38,13 +38,22 @@ contract Deployer is ScaffoldETHDeploy {
         realityAddress = new RealityETH_ERC20();
         console.logString(string.concat("RealityETH_ERC20_v3_0 deployed at: ", vm.toString(address(realityAddress))));
 
+        string memory usdtAddrStr = vm.envString("ERC20_TOKEN_ADDRESS");
+        if(bytes(usdtAddrStr).length == 42) {
+            address usdtAddr = vm.envAddress("ERC20_TOKEN_ADDRESS");
+            tokenAddress = IERC20(usdtAddr);
+        }
         IRealityETH_ERC20 realityErc20Address = IRealityETH_ERC20(address(realityAddress));
         gameErc20Address = new BettingGame_ERC20(realityErc20Address, tokenAddress);
         console.logString(string.concat("BettingGame deployed at: ", vm.toString(address(gameErc20Address))));
 
         // address lensHubProxyContract, address _bettingGameContract, address _realityETH, IERC20 _tokenAddress
+        string memory lenHubAddrStr = vm.envString("LENS_HUB_PROXY_ADDRESS");
+        if(bytes(lenHubAddrStr).length == 42) {
+            lensHubProxyContract = vm.envAddress("LENS_HUB_PROXY_ADDRESS");
+        }
         bgoaAddress = new BettingGameOpenAction(
-            address(0),
+            lensHubProxyContract,
             address(gameErc20Address),
             address(realityErc20Address),
             tokenAddress
